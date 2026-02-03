@@ -1,0 +1,3607 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Ghana Student Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/_sdk/data_sdk.js"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&amp;family=Fira+Code:wght@400;600&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        * {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .premium-glow {
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(3deg);
+            }
+        }
+
+        @keyframes pulse-scale {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        .floating {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-delayed {
+            animation: float 8s ease-in-out infinite;
+            animation-delay: -4s;
+        }
+
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2);
+        }
+
+        .timer-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transform: rotate(-90deg);
+            transform-origin: center;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: slide-up 0.5s ease forwards;
+        }
+
+        .post-card,
+        .news-card {
+            transition: all 0.2s ease;
+        }
+
+        .post-card:hover,
+        .news-card:hover {
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+        }
+
+        .like-btn {
+            transition: all 0.2s ease;
+        }
+
+        .like-btn:active {
+            transform: scale(0.9);
+        }
+
+        .like-btn.liked {
+            color: #ef4444;
+        }
+
+        .spinner {
+            border: 3px solid rgba(14, 165, 233, 0.2);
+            border-top-color: #0ea5e9;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: slide-in-right 0.3s ease;
+        }
+
+        @keyframes slide-in-right {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+        }
+
+        .media-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .media-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+        }
+
+        .news-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .news-card:hover::before {
+            left: 100%;
+        }
+
+        .badge-featured {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            animation: pulse-scale 2s ease-in-out infinite;
+        }
+
+        .priority-high {
+            border-left: 4px solid #ef4444;
+        }
+
+        .priority-medium {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .priority-low {
+            border-left: 4px solid #10b981;
+        }
+
+        /* NEW GAMING STYLES FROM BRAIN GAMES HUB */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .game-card-hub {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .game-card-hub:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-emoji {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .game-desc {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-hub {
+            text-align: center;
+        }
+
+        .stat-label-hub {
+            color: #999;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .stat-value-hub {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .play-btn-hub {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .play-btn-hub:hover {
+            transform: scale(1.02);
+        }
+
+        /* GAME MODALS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 2em;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        /* SPEED MATH */
+        .math-problem {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .problem-text {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .problem-timer {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .timer-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .score-display {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .score-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* WORD SCRAMBLE */
+        .scrambled-word {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .scrambled-text {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+        }
+
+        .word-hint {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .word-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: lowercase;
+        }
+
+        /* REACTION TIME */
+        .reaction-area {
+            background: #f5f5f5;
+            border-radius: 10px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        .reaction-waiting {
+            text-align: center;
+            color: #999;
+        }
+
+        .reaction-ready {
+            background: #ff6b6b;
+            text-align: center;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .reaction-go {
+            background: #51cf66;
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        /* PATTERN MASTER */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pattern-box {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            background: #f5f5f5;
+            border: 3px solid #ddd;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pattern-box:hover {
+            transform: scale(0.95);
+        }
+
+        .pattern-box.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .pattern-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .pattern-level {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* SPEED TYPER */
+        .typing-text {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text-to-type {
+            font-size: 1.3em;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .char {
+            transition: all 0.1s ease;
+        }
+
+        .char.correct {
+            color: #51cf66;
+            background: rgba(81, 207, 102, 0.1);
+        }
+
+        .char.incorrect {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .char.current {
+            background: #667eea;
+            color: white;
+            padding: 0 2px;
+        }
+
+        .typing-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .typing-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .typing-stat {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .typing-stat-label {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .typing-stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* GEOGRAPHY QUEST */
+        .quiz-question {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .question-counter {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05em;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #f9f9f9;
+        }
+
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quiz-option.correct {
+            background: #51cf66;
+            color: white;
+            border-color: #51cf66;
+        }
+
+        .quiz-option.incorrect {
+            background: #ff6b6b;
+            color: white;
+            border-color: #ff6b6b;
+        }
+
+        .fact-box {
+            background: #e8f5e9;
+            border-left: 4px solid #51cf66;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            color: #333;
+        }
+
+        /* ANIMATIONS */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .end-screen {
+            text-align: center;
+        }
+
+        .end-screen h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .end-screen-stats {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .end-stat {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .end-stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-group button {
+            flex: 1;
+        }
+
+        .secondary-btn {
+            background: #ddd;
+            color: #333;
+        }
+
+        .secondary-btn:hover {
+            background: #ccc;
+        }
+
+        .modal-content button {
+            width: 100%;
+        }
+
+        .modal-content .button-group {
+            margin-top: 20px;
+        }
+
+        /* Toast */
+        .toast-hub {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            animation: slideUp 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast-hub.error {
+            background: #ff6b6b;
+        }
+
+        .toast-hub.success {
+            background: #51cf66;
+        }
+
+        /* Game card animations */
+        .game-card-hub:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .game-card-hub:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .game-card-hub:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .game-card-hub:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .game-card-hub:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .game-card-hub:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+    </style>
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+    </style>
+</head>
+
+<body class="h-full overflow-auto"
+    style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);">
+    <div class="min-h-full w-full relative">
+        <!-- Enhanced Animated Background -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <!-- Gradient mesh overlay -->
+            <div class="absolute inset-0 opacity-30" style="background-image: 
+                radial-gradient(circle at 20% 50%, rgba(14, 165, 233, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 40%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);">
+            </div>
+            <!-- Animated orbs -->
+            <div
+                class="floating absolute top-[15%] left-[8%] w-96 h-96 bg-gradient-to-br from-sky-500/30 to-transparent rounded-full blur-3xl">
+            </div>
+            <div
+                class="floating-delayed absolute top-[50%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-blue-500/25 to-transparent rounded-full blur-3xl">
+            </div>
+            <div
+                class="floating absolute bottom-[10%] left-[30%] w-80 h-80 bg-gradient-to-br from-violet-500/30 to-transparent rounded-full blur-3xl">
+            </div>
+            <!-- Geometric grid pattern -->
+            <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="60" height="60" patternunits="userSpaceOnUse">
+                        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.5" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+            <!-- Floating geometric shapes -->
+            <div
+                class="floating absolute top-[20%] right-[20%] w-24 h-24 border-2 border-sky-400/20 rounded-2xl rotate-45">
+            </div>
+            <div
+                class="floating-delayed absolute bottom-[35%] right-[15%] w-32 h-32 border-2 border-blue-400/20 rounded-full">
+            </div>
+            <div class="floating absolute top-[60%] left-[15%] w-20 h-20 border-2 border-violet-400/20"
+                style="clip-path: polygon(50% 0%, 100% 100%, 0% 100%);"></div>
+            <div
+                class="floating-delayed absolute top-[30%] left-[40%] w-16 h-16 bg-gradient-to-br from-sky-400/10 to-blue-400/10 rounded-lg rotate-12">
+            </div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 py-6">
+            <!-- Header -->
+            <header class="mb-8 animate-in">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                    <div class="text-center sm:text-left">
+                        <h1 id="platform-name" class="text-4xl sm:text-5xl font-bold gradient-text mb-2">Campus Connect
+                            Ghana</h1>
+                        <p id="welcome-message" class="text-white/70">Your complete student hub with Ghana news &
+                            entertainment</p>
+                    </div>
+                    <button id="premium-btn"
+                        class="premium-glow px-6 py-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-900 rounded-full font-semibold flex items-center gap-2 hover:shadow-xl transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span id="premium-cta-text">Upgrade to Premium</span>
+                    </button>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <div class="glass-card rounded-2xl p-2 grid grid-cols-2 lg:grid-cols-6 gap-2">
+                    <button
+                        class="tab-button active px-4 py-4 rounded-xl font-medium flex flex-col items-center gap-2 hover:bg-white/10 transition-all"
+                        data-tab="news">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                        <span class="text-sm">News & Media</span>
+                    </button>
+                    <button
+                        class="tab-button px-4 py-4 rounded-xl font-medium flex flex-col items-center gap-2 hover:bg-white/10 transition-all"
+                        data-tab="study">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span class="text-sm">Study Hub</span>
+                    </button>
+                    <button
+                        class="tab-button px-4 py-4 rounded-xl font-medium flex flex-col items-center gap-2 hover:bg-white/10 transition-all"
+                        data-tab="social">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="text-sm">Social</span>
+                    </button>
+                    <button
+                        class="tab-button px-4 py-4 rounded-xl font-medium flex flex-col items-center gap-2 hover:bg-white/10 transition-all"
+                        data-tab="timer">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm">Focus Timer</span>
+                    </button>
+                    <button
+                        class="tab-button px-4 py-4 rounded-xl font-medium flex flex-col items-center gap-2 hover:bg-white/10 transition-all"
+                        data-tab="games">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                        </svg>
+                        <span class="text-sm">Games</span>
+                    </button>
+                    <button
+                        class="tab-button px-4 py-4 rounded-xl font-medium flex flex-col items-center gap-2 hover:bg-white/10 transition-all"
+                        data-tab="resources">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span class="text-sm">Resources</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- News & Entertainment Section -->
+            <section id="news-section" class="space-y-6">
+                <!-- News & Entertainment Stats Dashboard -->
+                <div
+                    class="glass-card rounded-2xl p-8 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-amber-500/20 border-2 border-red-400/30 shadow-2xl">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-6 mb-6">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-xl">
+                                🇬🇭
+                            </div>
+                            <div>
+                                <h3 class="text-3xl font-bold text-white mb-1">Ghana News & Entertainment</h3>
+                                <p class="text-sm text-orange-200">Latest updates from Graphic.com.gh & GhanaWeb</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button id="add-news-btn"
+                                class="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Content
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div
+                            class="text-center p-4 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl border border-blue-400/30">
+                            <div class="text-3xl font-bold text-white mb-1" id="total-content">0</div>
+                            <div class="stat-label text-white">Total Items</div>
+                        </div>
+                        <div
+                            class="text-center p-4 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-xl border border-red-400/30">
+                            <div class="text-3xl font-bold text-white mb-1" id="news-count">0</div>
+                            <div class="stat-label text-white">News Articles</div>
+                        </div>
+                        <div
+                            class="text-center p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-400/30">
+                            <div class="text-3xl font-bold text-white mb-1" id="video-count">0</div>
+                            <div class="stat-label text-white">Videos</div>
+                        </div>
+                        <div
+                            class="text-center p-4 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl border border-green-400/30">
+                            <div class="text-3xl font-bold text-white mb-1" id="entertainment-count">0</div>
+                            <div class="stat-label text-white">Entertainment</div>
+                        </div>
+                        <div
+                            class="text-center p-4 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-xl border border-amber-400/30">
+                            <div class="text-3xl font-bold text-white mb-1" id="total-views">0</div>
+                            <div class="stat-label text-white">Total Views</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Filter Tabs -->
+                <div class="glass-card rounded-2xl p-4">
+                    <div class="flex flex-wrap gap-2">
+                        <button
+                            class="filter-btn active px-6 py-2 rounded-lg bg-sky-500/30 text-sky-200 font-medium hover:bg-sky-500/40 transition-all border border-sky-400/30"
+                            data-filter="all">All Content</button>
+                        <button
+                            class="filter-btn px-6 py-2 rounded-lg bg-white/5 text-white/70 font-medium hover:bg-white/10 transition-all"
+                            data-filter="news">📰 News</button>
+                        <button
+                            class="filter-btn px-6 py-2 rounded-lg bg-white/5 text-white/70 font-medium hover:bg-white/10 transition-all"
+                            data-filter="video">🎬 Videos</button>
+                        <button
+                            class="filter-btn px-6 py-2 rounded-lg bg-white/5 text-white/70 font-medium hover:bg-white/10 transition-all"
+                            data-filter="entertainment">🎭 Entertainment</button>
+                        <button
+                            class="filter-btn px-6 py-2 rounded-lg bg-white/5 text-white/70 font-medium hover:bg-white/10 transition-all"
+                            data-filter="multimedia">🎥 Multimedia</button>
+                        <button
+                            class="filter-btn px-6 py-2 rounded-lg bg-white/5 text-white/70 font-medium hover:bg-white/10 transition-all"
+                            data-filter="featured">⭐ Featured</button>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div id="news-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- News cards will be dynamically inserted here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-news" class="glass-card rounded-2xl p-12 text-center">
+                    <div class="text-6xl mb-4">📰</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">No Content Yet</h3>
+                    <p class="text-white/60 mb-6">Start adding news, entertainment, and multimedia content from Ghana
+                        sources</p>
+                    <button
+                        class="add-content-trigger px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all">
+                        Add Your First Item
+                    </button>
+                </div>
+            </section>
+
+            <!-- Study Hub Section -->
+            <section id="study-section" class="hidden space-y-6">
+                <!-- Learning Styles Section -->
+                <div
+                    class="glass-card rounded-2xl p-6 bg-gradient-to-br from-cyan-500/15 to-teal-500/15 border border-cyan-400/30">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="text-3xl">🎓</span> Choose Your Learning Style
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <button
+                            class="learning-style-btn p-6 rounded-xl bg-gradient-to-br from-red-500/30 to-orange-500/30 border-2 border-red-400/40 hover:scale-105 hover:shadow-2xl transition-all"
+                            data-style="visual">
+                            <div class="text-4xl mb-3">👁️</div>
+                            <div class="font-bold text-white text-base mb-2">Visual Learner</div>
+                            <div class="text-xs text-white/70 mb-3">Diagrams, Charts & Infographics</div>
+                            <div
+                                class="text-xs bg-red-500/30 text-red-200 px-3 py-1 rounded-full border border-red-400/40 inline-block">
+                                Click to explore</div>
+                        </button>
+                        <button
+                            class="learning-style-btn p-6 rounded-xl bg-gradient-to-br from-purple-500/30 to-pink-500/30 border-2 border-purple-400/40 hover:scale-105 hover:shadow-2xl transition-all"
+                            data-style="auditory">
+                            <div class="text-4xl mb-3">👂</div>
+                            <div class="font-bold text-white text-base mb-2">Auditory Learner</div>
+                            <div class="text-xs text-white/70 mb-3">Lectures, Podcasts & Discussions</div>
+                            <div
+                                class="text-xs bg-purple-500/30 text-purple-200 px-3 py-1 rounded-full border border-purple-400/40 inline-block">
+                                Click to explore</div>
+                        </button>
+                        <button
+                            class="learning-style-btn p-6 rounded-xl bg-gradient-to-br from-green-500/30 to-emerald-500/30 border-2 border-green-400/40 hover:scale-105 hover:shadow-2xl transition-all"
+                            data-style="kinesthetic">
+                            <div class="text-4xl mb-3">✋</div>
+                            <div class="font-bold text-white text-base mb-2">Kinesthetic Learner</div>
+                            <div class="text-xs text-white/70 mb-3">Hands-on Practice & Labs</div>
+                            <div
+                                class="text-xs bg-green-500/30 text-green-200 px-3 py-1 rounded-full border border-green-400/40 inline-block">
+                                Click to explore</div>
+                        </button>
+                        <button
+                            class="learning-style-btn p-6 rounded-xl bg-gradient-to-br from-blue-500/30 to-indigo-500/30 border-2 border-blue-400/40 hover:scale-105 hover:shadow-2xl transition-all"
+                            data-style="reading">
+                            <div class="text-4xl mb-3">📖</div>
+                            <div class="font-bold text-white text-base mb-2">Reading/Writing</div>
+                            <div class="text-xs text-white/70 mb-3">Notes, Articles & Essays</div>
+                            <div
+                                class="text-xs bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full border border-blue-400/40 inline-block">
+                                Click to explore</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Study Groups -->
+                    <div
+                        class="feature-card glass-card rounded-2xl p-6 bg-gradient-to-br from-violet-500/10 to-purple-500/10 border border-violet-400/30">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                                    <span class="text-2xl">👥</span> Study Groups
+                                </h3>
+                                <p class="text-sm text-white/60">Join collaborative sessions</p>
+                            </div>
+                            <div
+                                class="px-3 py-1 bg-green-500/30 text-green-200 rounded-full text-xs font-bold border border-green-400/30">
+                                +50 XP</div>
+                        </div>
+                        <div class="space-y-3">
+                            <button
+                                class="w-full study-group-btn p-4 bg-gradient-to-r from-violet-500/20 to-purple-500/20 rounded-xl border border-violet-400/30 hover:scale-102 hover:shadow-lg transition-all"
+                                data-group="cs101">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="font-semibold text-white text-base">CS101 Finals Prep</span>
+                                    <span
+                                        class="text-xs bg-red-500/40 text-red-100 px-3 py-1 rounded-full border border-red-400/40 font-bold animate-pulse">🔴
+                                        LIVE NOW</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex -space-x-2">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-red-400 border-2 border-white/20">
+                                            </div>
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 border-2 border-white/20">
+                                            </div>
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-emerald-400 border-2 border-white/20">
+                                            </div>
+                                        </div>
+                                        <span class="text-xs text-white/70">8 students active</span>
+                                    </div>
+                                    <div
+                                        class="text-xs bg-violet-500/30 text-violet-200 px-3 py-1 rounded-full border border-violet-400/30">
+                                        Join Session →</div>
+                                </div>
+                            </button>
+                            <button
+                                class="w-full study-group-btn p-4 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-xl border border-purple-400/30 hover:scale-102 hover:shadow-lg transition-all"
+                                data-group="math">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="font-semibold text-white text-base">Math Study Group</span>
+                                    <span
+                                        class="text-xs bg-orange-500/40 text-orange-100 px-3 py-1 rounded-full border border-orange-400/40 font-bold">⏰
+                                        Starts in 30min</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex -space-x-2">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 border-2 border-white/20">
+                                            </div>
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 border-2 border-white/20">
+                                            </div>
+                                        </div>
+                                        <span class="text-xs text-white/70">5 students joined</span>
+                                    </div>
+                                    <div
+                                        class="text-xs bg-purple-500/30 text-purple-200 px-3 py-1 rounded-full border border-purple-400/30">
+                                        Reserve Spot →</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Flash Cards with Progress -->
+                    <div
+                        class="feature-card glass-card rounded-2xl p-6 bg-gradient-to-br from-pink-500/10 to-rose-500/10 border border-pink-400/30">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                                    <span class="text-2xl">🎴</span> Flash Cards
+                                </h3>
+                                <p class="text-sm text-white/60">Quick study sessions</p>
+                            </div>
+                            <div
+                                class="px-3 py-1 bg-pink-500/30 text-pink-200 rounded-full text-xs font-bold border border-pink-400/30">
+                                +25 XP</div>
+                        </div>
+                        <div class="space-y-3">
+                            <button
+                                class="flashcard-btn w-full p-5 bg-gradient-to-br from-pink-500/25 to-purple-500/25 rounded-xl border border-pink-400/40 hover:shadow-xl transition-all"
+                                data-deck="biology">
+                                <div class="flex items-center justify-between mb-3">
+                                    <p class="font-semibold text-white text-base">Biology Chapter 5</p>
+                                    <span
+                                        class="text-xs bg-yellow-500/40 text-yellow-100 px-3 py-1 rounded-full border border-yellow-400/40 font-bold">⚡
+                                        3 Day Streak</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm mb-3">
+                                    <span class="text-white/70">Progress: 12/25 cards</span>
+                                    <span class="text-pink-300 font-bold">48%</span>
+                                </div>
+                                <div class="w-full bg-black/20 rounded-full h-3 mb-3 shadow-inner">
+                                    <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-3 rounded-full relative shadow-lg"
+                                        style="width: 48%">
+                                        <div
+                                            class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg border border-pink-300">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-green-300 font-medium">✓ 12 Correct</span>
+                                    <span class="text-red-300 font-medium">✗ 2 Wrong</span>
+                                    <span
+                                        class="bg-pink-500/30 text-pink-200 px-3 py-1 rounded-full border border-pink-400/30">Practice
+                                        Now →</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Shared Notes -->
+                    <div
+                        class="feature-card glass-card rounded-2xl p-6 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-400/30">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                                    <span class="text-2xl">📝</span> Shared Notes
+                                </h3>
+                                <p class="text-sm text-white/60">Community knowledge</p>
+                            </div>
+                            <div
+                                class="px-3 py-1 bg-blue-500/30 text-blue-200 rounded-full text-xs font-bold border border-blue-400/30">
+                                +15 XP</div>
+                        </div>
+                        <div class="space-y-2">
+                            <div
+                                class="flex items-center gap-3 p-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg border border-blue-400/30 hover:scale-102 transition-all cursor-pointer">
+                                <span class="text-2xl">📄</span>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white">Physics Summary</p>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-xs text-white/50">By Sarah K.</span>
+                                        <span
+                                            class="text-xs bg-green-500/30 text-green-200 px-2 py-0.5 rounded-full border border-green-400/30">⭐
+                                            4.9</span>
+                                        <span class="text-xs text-white/50">2.1k views</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center gap-3 p-3 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-400/30 hover:scale-102 transition-all cursor-pointer">
+                                <span class="text-2xl">📄</span>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white">History Timeline</p>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-xs text-white/50">By Mike T.</span>
+                                        <span
+                                            class="text-xs bg-green-500/30 text-green-200 px-2 py-0.5 rounded-full border border-green-400/30">⭐
+                                            4.7</span>
+                                        <span class="text-xs text-white/50">1.8k views</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Challenges -->
+                    <div
+                        class="feature-card glass-card rounded-2xl p-6 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border border-amber-400/30">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                                    <span class="text-2xl">⚡</span> Daily Challenges
+                                </h3>
+                                <p class="text-sm text-white/60">Complete for bonus XP</p>
+                            </div>
+                            <div class="text-xl">🎯</div>
+                        </div>
+                        <div class="space-y-3">
+                            <div
+                                class="p-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg border border-green-400/30">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+                                        ✓</div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-white">Study for 25 minutes</p>
+                                        <p class="text-xs text-green-300">+100 XP Earned!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="p-3 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 rounded-lg border border-amber-400/30">
+                                <div class="flex items-center justify-between mb-2">
+                                    <p class="text-sm font-medium text-white">Complete 5 flashcards</p>
+                                    <span class="text-xs text-yellow-300 font-bold">2/5</span>
+                                </div>
+                                <div class="w-full bg-white/10 rounded-full h-1.5">
+                                    <div class="bg-gradient-to-r from-yellow-400 to-orange-400 h-1.5 rounded-full"
+                                        style="width: 40%"></div>
+                                </div>
+                            </div>
+                            <div
+                                class="p-3 bg-gradient-to-r from-amber-500/15 to-orange-500/15 rounded-lg border border-amber-400/30">
+                                <div class="flex items-center justify-between mb-2">
+                                    <p class="text-sm font-medium text-white">Join a study group</p>
+                                    <span
+                                        class="text-xs bg-orange-500/30 text-orange-200 px-2 py-1 rounded-full border border-orange-400/30">+75
+                                        XP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Badges -->
+                    <div
+                        class="feature-card glass-card rounded-2xl p-6 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-400/30">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                                    <span class="text-2xl">🏅</span> Achievement Badges
+                                </h3>
+                                <p class="text-sm text-white/60">Collect them all!</p>
+                            </div>
+                            <div
+                                class="px-3 py-1 bg-indigo-500/30 text-indigo-200 rounded-full text-xs font-bold border border-indigo-400/30">
+                                28/50</div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            <div
+                                class="aspect-square bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center text-2xl shadow-lg border-2 border-yellow-300/50">
+                                🏆</div>
+                            <div
+                                class="aspect-square bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center text-2xl shadow-lg border-2 border-green-300/50">
+                                ⚡</div>
+                            <div
+                                class="aspect-square bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center text-2xl shadow-lg border-2 border-purple-300/50">
+                                🎯</div>
+                            <div
+                                class="aspect-square bg-gradient-to-br from-blue-400 to-cyan-500 rounded-xl flex items-center justify-center text-2xl shadow-lg border-2 border-blue-300/50">
+                                📚</div>
+                            <div
+                                class="aspect-square bg-gradient-to-br from-red-400 to-pink-500 rounded-xl flex items-center justify-center text-2xl shadow-lg border-2 border-red-300/50">
+                                🔥</div>
+                            <div
+                                class="aspect-square bg-white/5 rounded-xl flex items-center justify-center text-2xl border-2 border-white/10">
+                                🔒</div>
+                            <div
+                                class="aspect-square bg-white/5 rounded-xl flex items-center justify-center text-2xl border-2 border-white/10">
+                                🔒</div>
+                            <div
+                                class="aspect-square bg-white/5 rounded-xl flex items-center justify-center text-2xl border-2 border-white/10">
+                                🔒</div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Link to News -->
+                    <div
+                        class="feature-card glass-card rounded-2xl p-6 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-400/30">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                                    <span class="text-2xl">🇬🇭</span> Ghana Updates
+                                </h3>
+                                <p class="text-sm text-white/60">Latest news & entertainment</p>
+                            </div>
+                            <div
+                                class="px-3 py-1 bg-red-500/30 text-red-200 rounded-full text-xs font-bold border border-red-400/30">
+                                NEW</div>
+                        </div>
+                        <div class="space-y-3">
+                            <p class="text-sm text-white/80">Stay updated with the latest Ghana news, entertainment, and
+                                multimedia content!</p>
+                            <button
+                                class="w-full py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl font-semibold hover:shadow-xl transition-all"
+                                onclick="switchToNewsTab()">View News & Entertainment →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Features Promo -->
+                <div
+                    class="glass-card rounded-2xl p-6 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-400/30">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="text-6xl">⭐</div>
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-white mb-2">Unlock Premium Study Tools</h3>
+                            <p class="text-white/70 mb-4">Get AI-powered tutoring, unlimited flashcards, and ad-free
+                                experience</p>
+                            <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                                <span class="text-sm bg-white/20 text-white px-3 py-1 rounded-full">✓ AI Study
+                                    Assistant</span>
+                                <span class="text-sm bg-white/20 text-white px-3 py-1 rounded-full">✓ Unlimited
+                                    Storage</span>
+                                <span class="text-sm bg-white/20 text-white px-3 py-1 rounded-full">✓ Priority
+                                    Support</span>
+                            </div>
+                        </div>
+                        <button
+                            class="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 rounded-xl font-bold hover:shadow-xl transition-all">
+                            <div class="text-lg">GH₵ 50/month</div>
+                            <div class="text-xs opacity-90">Start free trial</div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Feed Section -->
+            <section id="social-section" class="hidden space-y-6">
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-white mb-4">Share with the community</h3>
+                    <form id="post-form" class="space-y-4">
+                        <div>
+                            <label for="post-title" class="block text-sm font-medium text-white/80 mb-2">Title</label>
+                            <input type="text" id="post-title" placeholder="What's on your mind?"
+                                class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                required>
+                        </div>
+                        <div>
+                            <label for="post-content"
+                                class="block text-sm font-medium text-white/80 mb-2">Content</label>
+                            <textarea id="post-content" rows="3"
+                                placeholder="Share your thoughts, questions, or achievements..."
+                                class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                required></textarea>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select id="post-category"
+                                class="px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <option value="general">💬 General</option>
+                                <option value="study">📚 Study Help</option>
+                                <option value="achievement">🏆 Achievement</option>
+                                <option value="event">📅 Event</option>
+                                <option value="fun">🎉 Fun</option>
+                            </select>
+                            <button type="submit" id="post-submit-btn"
+                                class="flex-1 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all">Post</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Posts Feed -->
+                <div id="posts-container" class="space-y-4">
+                    <!-- Posts will be dynamically inserted here -->
+                </div>
+
+                <div id="empty-feed" class="glass-card rounded-2xl p-12 text-center">
+                    <div class="text-6xl mb-4">✨</div>
+                    <h3 class="text-xl font-bold text-white mb-2">No posts yet</h3>
+                    <p class="text-white/60">Be the first to share something with the community!</p>
+                </div>
+            </section>
+
+            <!-- Focus Timer Section -->
+            <section id="timer-section" class="hidden">
+                <div class="max-w-2xl mx-auto">
+                    <div class="glass-card rounded-3xl p-8 text-center">
+                        <h3 class="text-2xl font-bold text-white mb-6">Pomodoro Focus Timer</h3>
+                        <div class="relative w-64 h-64 mx-auto mb-8">
+                            <svg class="w-64 h-64" viewbox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)"
+                                    stroke-width="4" />
+                                <circle id="timer-progress" class="timer-circle" cx="50" cy="50" r="45" fill="none"
+                                    stroke="url(#gradient)" stroke-width="4" />
+                                <defs>
+                                    <lineargradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#0ea5e9" />
+                                        <stop offset="100%" style="stop-color:#3b82f6" />
+                                    </lineargradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div>
+                                    <div id="timer-display" class="text-5xl font-bold text-white mono">25:00</div>
+                                    <div id="timer-label" class="text-sm text-white/60 mt-2">Focus Session</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center gap-4 mb-6">
+                            <button id="timer-start"
+                                class="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all">Start
+                                Focus</button>
+                            <button id="timer-reset"
+                                class="px-6 py-4 bg-white/10 text-white rounded-xl font-semibold hover:bg-white/20 transition-all">Reset</button>
+                        </div>
+                        <div class="flex items-center justify-center gap-4 text-sm">
+                            <button
+                                class="timer-preset px-4 py-2 rounded-lg bg-sky-500/30 text-sky-200 font-medium hover:bg-sky-500/40 transition-colors"
+                                data-minutes="25">25 min</button>
+                            <button
+                                class="timer-preset px-4 py-2 rounded-lg bg-sky-500/30 text-sky-200 font-medium hover:bg-sky-500/40 transition-colors"
+                                data-minutes="15">15 min</button>
+                            <button
+                                class="timer-preset px-4 py-2 rounded-lg bg-sky-500/30 text-sky-200 font-medium hover:bg-sky-500/40 transition-colors"
+                                data-minutes="5">5 min</button>
+                        </div>
+                        <div
+                            class="mt-8 p-4 bg-gradient-to-r from-sky-500/20 to-blue-500/20 rounded-xl border border-sky-400/30">
+                            <p class="text-sm text-white/80">💡 <strong>Tip:</strong> Studies show 25-minute focus
+                                sessions improve retention by up to 30%</p>
+                        </div>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="glass-card rounded-2xl p-6 mt-6">
+                        <h4 class="font-bold text-white mb-4">Today's Focus Stats</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">0</div>
+                                <div class="stat-label text-white mt-1">Sessions</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">0m</div>
+                                <div class="stat-label text-white mt-1">Focused</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold gradient-text">--</div>
+                                <div class="stat-label text-white mt-1">Streak</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW BRAIN GAMES HUB SECTION -->
+            <section id="games-section" class="hidden space-y-6">
+                <!-- Games Header -->
+                <div
+                    class="glass-card rounded-2xl p-8 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-red-500/20 border-2 border-purple-400/30 shadow-2xl">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-4xl shadow-xl">
+                                🧠
+                            </div>
+                            <div>
+                                <h3 class="text-3xl font-bold text-white mb-1">Brain Games Hub</h3>
+                                <p class="text-sm text-purple-200">Challenge Your Mind & Earn XP!</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="text-center p-4 bg-gradient-to-br from-yellow-500/30 to-orange-500/30 rounded-xl border border-yellow-400/40">
+                                <div class="text-3xl font-bold text-yellow-300 score-display" id="total-games-played">0
+                                </div>
+                                <div class="stat-label text-white">Games Played</div>
+                            </div>
+                            <div
+                                class="text-center p-4 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-xl border border-green-400/40">
+                                <div class="text-3xl font-bold text-green-300 score-display" id="total-xp-earned">0
+                                </div>
+                                <div class="stat-label text-white">Total XP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Games Grid -->
+                <div class="games-grid">
+                    <!-- Speed Math Card -->
+                    <div class="game-card-hub" onclick="openGame('speedMath')">
+                        <div class="game-emoji">🔢</div>
+                        <div class="game-title">Speed Math</div>
+                        <div class="game-desc">Quick calculation challenge</div>
+                        <div class="game-stats">
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">XP Reward</div>
+                                <div class="stat-value-hub">+35</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">High Score</div>
+                                <div class="stat-value-hub" id="math-high-score">0</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Plays Today</div>
+                                <div class="stat-value-hub" id="math-plays">0</div>
+                            </div>
+                        </div>
+                        <button class="play-btn-hub">Play Game</button>
+                    </div>
+
+                    <!-- Word Scramble Card -->
+                    <div class="game-card-hub" onclick="openGame('wordScramble')">
+                        <div class="game-emoji">🔤</div>
+                        <div class="game-title">Word Scramble</div>
+                        <div class="game-desc">Unscramble the words</div>
+                        <div class="game-stats">
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">XP Reward</div>
+                                <div class="stat-value-hub">+25</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Words Solved</div>
+                                <div class="stat-value-hub" id="word-solved">0</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Plays Today</div>
+                                <div class="stat-value-hub" id="word-plays">0</div>
+                            </div>
+                        </div>
+                        <button class="play-btn-hub">Play Game</button>
+                    </div>
+
+                    <!-- Reaction Time Card -->
+                    <div class="game-card-hub" onclick="openGame('reactionTime')">
+                        <div class="game-emoji">⚡</div>
+                        <div class="game-title">Reaction Time</div>
+                        <div class="game-desc">Test your reflexes</div>
+                        <div class="game-stats">
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">XP Reward</div>
+                                <div class="stat-value-hub">+20</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Best Time</div>
+                                <div class="stat-value-hub" id="reaction-best">--ms</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Plays Today</div>
+                                <div class="stat-value-hub" id="reaction-plays">0</div>
+                            </div>
+                        </div>
+                        <button class="play-btn-hub">Play Game</button>
+                    </div>
+
+                    <!-- Pattern Master Card -->
+                    <div class="game-card-hub" onclick="openGame('patternMaster')">
+                        <div class="game-emoji">🎯</div>
+                        <div class="game-title">Pattern Master</div>
+                        <div class="game-desc">Remember the sequence</div>
+                        <div class="game-stats">
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">XP Reward</div>
+                                <div class="stat-value-hub">+40</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Best Streak</div>
+                                <div class="stat-value-hub" id="pattern-best">0</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Plays Today</div>
+                                <div class="stat-value-hub" id="pattern-plays">0</div>
+                            </div>
+                        </div>
+                        <button class="play-btn-hub">Play Game</button>
+                    </div>
+
+                    <!-- Speed Typer Card -->
+                    <div class="game-card-hub" onclick="openGame('speedTyper')">
+                        <div class="game-emoji">⌨️</div>
+                        <div class="game-title">Speed Typer</div>
+                        <div class="game-desc">Improve typing speed</div>
+                        <div class="game-stats">
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">XP Reward</div>
+                                <div class="stat-value-hub">+30</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Best WPM</div>
+                                <div class="stat-value-hub" id="typer-best">0</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Plays Today</div>
+                                <div class="stat-value-hub" id="typer-plays">0</div>
+                            </div>
+                        </div>
+                        <button class="play-btn-hub">Play Game</button>
+                    </div>
+
+                    <!-- Geography Quest Card -->
+                    <div class="game-card-hub" onclick="openGame('geographyQuest')">
+                        <div class="game-emoji">🌍</div>
+                        <div class="game-title">Geography Quest</div>
+                        <div class="game-desc">Learn world capitals & facts</div>
+                        <div class="game-stats">
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">XP Reward</div>
+                                <div class="stat-value-hub">+50</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">High Score</div>
+                                <div class="stat-value-hub" id="geo-high-score">0</div>
+                            </div>
+                            <div class="stat-hub">
+                                <div class="stat-label-hub">Plays Today</div>
+                                <div class="stat-value-hub" id="geo-plays">0</div>
+                            </div>
+                        </div>
+                        <button class="play-btn-hub">Play Game</button>
+                    </div>
+                </div>
+
+                <!-- Game Results -->
+                <div
+                    class="glass-card rounded-2xl p-6 bg-gradient-to-br from-pink-500/10 to-purple-500/10 border border-pink-400/30">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-2xl">🏆</span> Recent Game Results
+                    </h3>
+                    <div id="game-results" class="space-y-3">
+                        <div class="text-center py-8 text-white/50">
+                            <div class="text-4xl mb-2">🎮</div>
+                            <p>Play games to see your results here!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gaming Leaderboard -->
+                <div
+                    class="glass-card rounded-2xl p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-400/30">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                            <span class="text-2xl">👾</span> Top Gamers This Week
+                        </h3>
+                        <div
+                            class="text-xs bg-cyan-500/30 text-cyan-200 px-3 py-1 rounded-full border border-cyan-400/30">
+                            Live Rankings</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 rounded-xl border border-yellow-400/40">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                                1</div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-white">Gaming Master</p>
+                                <p class="stat-label text-yellow-300">2,850 Gaming XP</p>
+                            </div>
+                            <span class="text-2xl">👑</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center text-white font-bold">
+                                2</div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-white">Quick Thinker</p>
+                                <p class="stat-label text-gray-300">2,100 Gaming XP</p>
+                            </div>
+                            <span class="text-2xl">🥈</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-700 rounded-full flex items-center justify-center text-white font-bold">
+                                3</div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-white">Brain Power</p>
+                                <p class="stat-label text-amber-300">1,950 Gaming XP</p>
+                            </div>
+                            <span class="text-2xl">🥉</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources-section" class="hidden">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold text-white mb-4">📚 Study Resources</h3>
+                        <div class="space-y-3">
+                            <a href="https://www.khanacademy.org" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">🎓</span>
+                                <div>
+                                    <div class="font-semibold text-white">Khan Academy</div>
+                                    <div class="text-xs text-white/60">Free courses in every subject</div>
+                                </div>
+                            </a>
+                            <a href="https://www.coursera.org" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">💻</span>
+                                <div>
+                                    <div class="font-semibold text-white">Coursera</div>
+                                    <div class="text-xs text-white/60">University-level courses</div>
+                                </div>
+                            </a>
+                            <a href="https://www.youtube.com/education" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">🎬</span>
+                                <div>
+                                    <div class="font-semibold text-white">YouTube EDU</div>
+                                    <div class="text-xs text-white/60">Educational video content</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🇬🇭 Ghana Resources</h3>
+                        <div class="space-y-3">
+                            <a href="https://www.graphic.com.gh/" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">📰</span>
+                                <div>
+                                    <div class="font-semibold text-white">Graphic Online</div>
+                                    <div class="text-xs text-white/60">Ghana's leading news portal</div>
+                                </div>
+                            </a>
+                            <a href="https://www.ghanaweb.com/GhanaHomePage/entertainment/" target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">🎭</span>
+                                <div>
+                                    <div class="font-semibold text-white">GhanaWeb Entertainment</div>
+                                    <div class="text-xs text-white/60">Latest Ghana entertainment news</div>
+                                </div>
+                            </a>
+                            <button
+                                class="news-tab-trigger w-full flex items-center gap-3 p-3 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-xl border border-red-400/30 hover:scale-102 hover:shadow-lg transition-all">
+                                <span class="text-2xl">🇬🇭</span>
+                                <div class="flex-1 text-left">
+                                    <div class="font-semibold text-white">Campus Connect Ghana Hub</div>
+                                    <div class="text-xs text-white/60">Add and manage Ghana content</div>
+                                </div>
+                                <div
+                                    class="text-xs bg-red-500/30 text-red-200 px-3 py-1 rounded-full border border-red-400/30">
+                                    Go →</div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold text-white mb-4">🎯 Wellness & Fun</h3>
+                        <div class="space-y-3">
+                            <a href="https://www.headspace.com/students" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">🧘</span>
+                                <div>
+                                    <div class="font-semibold text-white">Meditation for Students</div>
+                                    <div class="text-xs text-white/60">Mental wellness resources</div>
+                                </div>
+                            </a>
+                            <a href="https://www.spotify.com/student" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all">
+                                <span class="text-2xl">🎵</span>
+                                <div>
+                                    <div class="font-semibold text-white">Music for Studying</div>
+                                    <div class="text-xs text-white/60">Focus playlists</div>
+                                </div>
+                            </a>
+                            <button
+                                class="games-tab-trigger w-full flex items-center gap-3 p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-400/30 hover:scale-102 hover:shadow-lg transition-all">
+                                <span class="text-2xl">🎮</span>
+                                <div class="flex-1 text-left">
+                                    <div class="font-semibold text-white">Brain Games Hub</div>
+                                    <div class="text-xs text-white/60">Challenge your mind with games</div>
+                                </div>
+                                <div
+                                    class="text-xs bg-purple-500/30 text-purple-200 px-3 py-1 rounded-full border border-purple-400/30">
+                                    Play Now →</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sponsored Ad Space -->
+                    <div
+                        class="glass-card rounded-2xl p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-2 border-blue-400/30">
+                        <div class="flex items-start gap-4">
+                            <div class="text-4xl">📱</div>
+                            <div class="flex-1">
+                                <div class="text-xs text-white/50 mb-2">SPONSORED</div>
+                                <h4 class="text-lg font-bold text-white mb-2">StudentBuddy Ghana - 50% Off Premium</h4>
+                                <p class="text-sm text-white/70 mb-3">Download the #1 rated student planner app in
+                                    Ghana. Track assignments, manage deadlines, and boost productivity.</p>
+                                <button
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">Learn
+                                    More →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Add Content Modal -->
+    <div id="content-modal"
+        class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="glass-card rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-white">Add Ghana News & Entertainment Content</h3>
+                <button id="close-content-modal"
+                    class="text-white/60 hover:text-white text-3xl transition-colors">×</button>
+            </div>
+            <form id="content-form" class="space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="content-title" class="block text-sm font-medium text-white/80 mb-2">Title *</label>
+                        <input type="text" id="content-title" placeholder="Enter content title"
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                            required>
+                    </div>
+                    <div>
+                        <label for="content-type" class="block text-sm font-medium text-white/80 mb-2">Type *</label>
+                        <select id="content-type"
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
+                            required>
+                            <option value="news">📰 News Article</option>
+                            <option value="video">🎬 Video</option>
+                            <option value="entertainment">🎭 Entertainment</option>
+                            <option value="multimedia">🎥 Multimedia</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="content-description" class="block text-sm font-medium text-white/80 mb-2">Description
+                        *</label>
+                    <textarea id="content-description" rows="3" placeholder="Brief description of the content"
+                        class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        required></textarea>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="content-source" class="block text-sm font-medium text-white/80 mb-2">Source
+                            URL</label>
+                        <input type="url" id="content-source" placeholder="https://www.graphic.com.gh/..."
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    </div>
+                    <div>
+                        <label for="content-author" class="block text-sm font-medium text-white/80 mb-2">Author/Source
+                            Name</label>
+                        <input type="text" id="content-author" placeholder="Graphic Online, GhanaWeb..."
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="content-priority"
+                            class="block text-sm font-medium text-white/80 mb-2">Priority</label>
+                        <select id="content-priority"
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            <option value="3">🔴 High Priority</option>
+                            <option value="2" selected>🟡 Medium Priority</option>
+                            <option value="1">🟢 Low Priority</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="content-duration" class="block text-sm font-medium text-white/80 mb-2">Duration (if
+                            video)</label>
+                        <input type="text" id="content-duration" placeholder="e.g., 5:30"
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    </div>
+                    <div>
+                        <label for="content-tags" class="block text-sm font-medium text-white/80 mb-2">Tags</label>
+                        <input type="text" id="content-tags" placeholder="politics, sports..."
+                            class="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="content-featured"
+                        class="w-5 h-5 rounded bg-white/10 border border-white/20 focus:ring-2 focus:ring-sky-500">
+                    <label for="content-featured" class="text-sm font-medium text-white/80">⭐ Mark as Featured (appears
+                        at the top)</label>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" id="content-submit-btn"
+                        class="flex-1 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all">Add
+                        Content</button>
+                    <button type="button" id="cancel-content-btn"
+                        class="px-6 py-3 bg-white/10 text-white rounded-xl font-semibold hover:bg-white/20 transition-all">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- GAME MODALS -->
+    <!-- SPEED MATH MODAL -->
+    <div id="speedMathModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame('speedMath')">×</button>
+            <div class="modal-header">🔢</div>
+            <div class="modal-title">Speed Math</div>
+            <div id="mathGameArea">
+                <div class="math-problem">
+                    <div class="problem-text" id="mathProblem">5 + 3</div>
+                    <div class="problem-timer">Time: <span id="mathTimer">30</span>s</div>
+                    <div class="timer-bar">
+                        <div class="timer-progress" id="mathTimerBar" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Score</div>
+                    <div class="score-value" id="mathScore">0</div>
+                </div>
+                <input type="number" id="mathAnswer" class="answer-input" placeholder="Enter your answer"
+                    onkeypress="if(event.key==='Enter') submitMathAnswer()">
+                <button class="submit-btn" onclick="submitMathAnswer()">Submit Answer</button>
+            </div>
+            <div id="mathEndScreen" class="end-screen" style="display: none;">
+                <h2>Game Over! 🎉</h2>
+                <div class="end-screen-stats">
+                    <div class="end-stat">Final Score: <span class="end-stat-value" id="mathFinalScore">0</span></div>
+                    <div class="end-stat">Correct Answers: <span class="end-stat-value" id="mathCorrectCount">0</span>
+                    </div>
+                    <div class="end-stat">XP Earned: <span class="end-stat-value" id="mathXPEarned">0</span></div>
+                </div>
+                <div class="button-group">
+                    <button class="play-btn-hub" onclick="initSpeedMath()">Play Again</button>
+                    <button class="play-btn-hub secondary-btn" onclick="closeGame('speedMath')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WORD SCRAMBLE MODAL -->
+    <div id="wordScrambleModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame('wordScramble')">×</button>
+            <div class="modal-header">🔤</div>
+            <div class="modal-title">Word Scramble</div>
+            <div id="wordGameArea">
+                <div class="scrambled-word">
+                    <div class="scrambled-text" id="scrambledWord">HLATOE</div>
+                    <div class="word-hint">Hint: A piece of clothing</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Words Solved</div>
+                    <div class="score-value" id="wordScore">0</div>
+                </div>
+                <input type="text" id="wordAnswer" class="word-input" placeholder="Type your answer"
+                    onkeypress="if(event.key==='Enter') submitWordAnswer()">
+                <button class="submit-btn" onclick="submitWordAnswer()">Submit</button>
+            </div>
+            <div id="wordEndScreen" class="end-screen" style="display: none;">
+                <h2>Game Over! 🎉</h2>
+                <div class="end-screen-stats">
+                    <div class="end-stat">Words Unscrambled: <span class="end-stat-value" id="wordFinalScore">0</span>
+                    </div>
+                    <div class="end-stat">Time Played: <span class="end-stat-value" id="wordTimePlayed">0</span>s</div>
+                    <div class="end-stat">XP Earned: <span class="end-stat-value" id="wordXPEarned">0</span></div>
+                </div>
+                <div class="button-group">
+                    <button class="play-btn-hub" onclick="initWordScramble()">Play Again</button>
+                    <button class="play-btn-hub secondary-btn" onclick="closeGame('wordScramble')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REACTION TIME MODAL -->
+    <div id="reactionTimeModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame('reactionTime')">×</button>
+            <div class="modal-header">⚡</div>
+            <div class="modal-title">Reaction Time</div>
+            <div id="reactionGameArea">
+                <div class="reaction-area" id="reactionArea" onclick="onReactionAreaClick()">
+                    <div class="reaction-waiting">Click here when the box turns green!</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Your Time</div>
+                    <div class="score-value" id="reactionTime">--ms</div>
+                </div>
+                <button class="submit-btn" onclick="startReactionTest()">Start Test</button>
+            </div>
+            <div id="reactionEndScreen" class="end-screen" style="display: none;">
+                <h2>Your Results ⚡</h2>
+                <div class="end-screen-stats">
+                    <div class="end-stat">Best Reaction Time: <span class="end-stat-value"
+                            id="reactionFinalTime">0</span>ms</div>
+                    <div class="end-stat">Tests Completed: <span class="end-stat-value" id="reactionTestsCount">0</span>
+                    </div>
+                    <div class="end-stat">XP Earned: <span class="end-stat-value" id="reactionXPEarned">0</span></div>
+                </div>
+                <div class="button-group">
+                    <button class="play-btn-hub" onclick="initReactionTime()">Play Again</button>
+                    <button class="play-btn-hub secondary-btn" onclick="closeGame('reactionTime')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PATTERN MASTER MODAL -->
+    <div id="patternMasterModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame('patternMaster')">×</button>
+            <div class="modal-header">🎯</div>
+            <div class="modal-title">Pattern Master</div>
+            <div id="patternGameArea">
+                <div class="pattern-info">
+                    <div class="pattern-level">Level: <span id="patternLevel">1</span></div>
+                </div>
+                <div class="pattern-grid">
+                    <div class="pattern-box" id="pattern0" onclick="selectPattern(0)">1️⃣</div>
+                    <div class="pattern-box" id="pattern1" onclick="selectPattern(1)">2️⃣</div>
+                    <div class="pattern-box" id="pattern2" onclick="selectPattern(2)">3️⃣</div>
+                    <div class="pattern-box" id="pattern3" onclick="selectPattern(3)">4️⃣</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Current Streak</div>
+                    <div class="score-value" id="patternScore">0</div>
+                </div>
+                <p style="text-align: center; color: #999; margin-bottom: 20px;">Watch and remember the sequence...</p>
+                <button class="submit-btn" onclick="startPatternGame()">Start Game</button>
+            </div>
+            <div id="patternEndScreen" class="end-screen" style="display: none;">
+                <h2>Game Over! 🎉</h2>
+                <div class="end-screen-stats">
+                    <div class="end-stat">Max Level Reached: <span class="end-stat-value" id="patternMaxLevel">0</span>
+                    </div>
+                    <div class="end-stat">Streak: <span class="end-stat-value" id="patternFinalStreak">0</span></div>
+                    <div class="end-stat">XP Earned: <span class="end-stat-value" id="patternXPEarned">0</span></div>
+                </div>
+                <div class="button-group">
+                    <button class="play-btn-hub" onclick="initPatternMaster()">Play Again</button>
+                    <button class="play-btn-hub secondary-btn" onclick="closeGame('patternMaster')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPEED TYPER MODAL -->
+    <div id="speedTyperModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame('speedTyper')">×</button>
+            <div class="modal-header">⌨️</div>
+            <div class="modal-title">Speed Typer</div>
+            <div id="typerGameArea">
+                <div class="typing-text">
+                    <div class="text-to-type" id="textToType">The quick brown fox jumps over the lazy dog</div>
+                </div>
+                <input type="text" id="typingInput" class="typing-input" placeholder="Start typing here...">
+                <div class="typing-stats">
+                    <div class="typing-stat">
+                        <div class="typing-stat-label">WPM</div>
+                        <div class="typing-stat-value" id="typingWPM">0</div>
+                    </div>
+                    <div class="typing-stat">
+                        <div class="typing-stat-label">Accuracy</div>
+                        <div class="typing-stat-value" id="typingAccuracy">100%</div>
+                    </div>
+                    <div class="typing-stat">
+                        <div class="typing-stat-label">Time</div>
+                        <div class="typing-stat-value" id="typingTimer">60s</div>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="finishTyperGame()" style="margin-top: 20px;">Finish</button>
+            </div>
+            <div id="typerEndScreen" class="end-screen" style="display: none;">
+                <h2>Results! 🎉</h2>
+                <div class="end-screen-stats">
+                    <div class="end-stat">Final WPM: <span class="end-stat-value" id="typerFinalWPM">0</span></div>
+                    <div class="end-stat">Accuracy: <span class="end-stat-value" id="typerFinalAccuracy">0</span>%</div>
+                    <div class="end-stat">XP Earned: <span class="end-stat-value" id="typerXPEarned">0</span></div>
+                </div>
+                <div class="button-group">
+                    <button class="play-btn-hub" onclick="initSpeedTyper()">Play Again</button>
+                    <button class="play-btn-hub secondary-btn" onclick="closeGame('speedTyper')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GEOGRAPHY QUEST MODAL -->
+    <div id="geographyQuestModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame('geographyQuest')">×</button>
+            <div class="modal-header">🌍</div>
+            <div class="modal-title">Geography Quest</div>
+            <div id="geoGameArea">
+                <div class="quiz-question">
+                    <div class="question-counter">Question <span id="geoQuestionNum">1</span>/10</div>
+                    <div class="question-text" id="geoQuestion">What is the capital of France?</div>
+                </div>
+                <div class="quiz-options" id="geoOptions">
+                    <div class="quiz-option" onclick="selectGeoOption(this)">Option 1</div>
+                    <div class="quiz-option" onclick="selectGeoOption(this)">Option 2</div>
+                    <div class="quiz-option" onclick="selectGeoOption(this)">Option 3</div>
+                    <div class="quiz-option" onclick="selectGeoOption(this)">Option 4</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Score</div>
+                    <div class="score-value" id="geoScore">0</div>
+                </div>
+                <button class="submit-btn" onclick="submitGeoAnswer()">Next Question</button>
+            </div>
+            <div id="geoEndScreen" class="end-screen" style="display: none;">
+                <h2>Quiz Complete! 🎉</h2>
+                <div class="end-screen-stats">
+                    <div class="end-stat">Final Score: <span class="end-stat-value" id="geoFinalScore">0</span>/10</div>
+                    <div class="end-stat">Percentage: <span class="end-stat-value" id="geoPercentage">0</span>%</div>
+                    <div class="end-stat">XP Earned: <span class="end-stat-value" id="geoXPEarned">0</span></div>
+                </div>
+                <div class="button-group">
+                    <button class="play-btn-hub" onclick="initGeographyQuest()">Play Again</button>
+                    <button class="play-btn-hub secondary-btn" onclick="closeGame('geographyQuest')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== GLOBAL STATE ==========
+        const defaultConfig = {
+            platform_name: 'Campus Connect Ghana',
+            welcome_message: 'Your complete student hub with Ghana news & entertainment',
+            premium_cta: 'Upgrade to Premium',
+            font_family: 'Space Grotesk',
+            font_size: 16,
+            primary_color: '#0ea5e9',
+            secondary_color: '#3b82f6',
+            text_color: '#1f2937'
+        };
+
+        let config = { ...defaultConfig };
+        let allContent = [];
+        let currentRecordCount = 0;
+        let currentFilter = 'all';
+
+        // Timer state
+        let timerInterval = null;
+        let timeRemaining = 25 * 60;
+        let totalTime = 25 * 60;
+        let isTimerRunning = false;
+
+        // ========== BRAIN GAMES HUB STATE ==========
+        const gameStats = {
+            speedMath: { plays: 0, highScore: 0 },
+            wordScramble: { plays: 0, wordsSolved: 0 },
+            reactionTime: { plays: 0, bestTime: null },
+            patternMaster: { plays: 0, bestStreak: 0 },
+            speedTyper: { plays: 0, bestWPM: 0 },
+            geographyQuest: { plays: 0, highScore: 0 }
+        };
+
+        let totalGamesPlayed = 0;
+        let totalXPEarned = 0;
+
+        // ========== TAB NAVIGATION ==========
+        const tabs = document.querySelectorAll('.tab-button');
+        const sections = {
+            'news': document.getElementById('news-section'),
+            'study': document.getElementById('study-section'),
+            'social': document.getElementById('social-section'),
+            'timer': document.getElementById('timer-section'),
+            'games': document.getElementById('games-section'),
+            'resources': document.getElementById('resources-section')
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                Object.values(sections).forEach(section => section.classList.add('hidden'));
+                sections[targetTab].classList.remove('hidden');
+            });
+        });
+
+        // Global function for tab switching
+        window.switchToNewsTab = function () {
+            document.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="news"]').classList.add('active');
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('news-section').classList.remove('hidden');
+        };
+
+        // ========== GAME MODAL FUNCTIONS ==========
+        function openGame(game) {
+            document.getElementById(game + 'Modal').classList.add('active');
+            if (game === 'speedMath') initSpeedMath();
+            if (game === 'wordScramble') initWordScramble();
+            if (game === 'reactionTime') initReactionTime();
+            if (game === 'patternMaster') initPatternMaster();
+            if (game === 'speedTyper') initSpeedTyper();
+            if (game === 'geographyQuest') initGeographyQuest();
+        }
+
+        function closeGame(game) {
+            document.getElementById(game + 'Modal').classList.remove('active');
+            if (game === 'speedMath' && window.mathGameTimer) clearInterval(window.mathGameTimer);
+            if (game === 'wordScramble' && window.wordGameTimer) clearInterval(window.wordGameTimer);
+            if (game === 'reactionTime' && window.reactionTestTimer) clearInterval(window.reactionTestTimer);
+            if (game === 'patternMaster' && window.patternPlayTimer) clearInterval(window.patternPlayTimer);
+            if (game === 'speedTyper' && window.typingGameTimer) clearInterval(window.typingGameTimer);
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast-hub ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ========== SPEED MATH GAME ==========
+        let mathGameState = {
+            score: 0,
+            correctCount: 0,
+            timeLeft: 30,
+            isActive: false
+        };
+
+        function initSpeedMath() {
+            mathGameState = { score: 0, correctCount: 0, timeLeft: 30, isActive: true };
+            document.getElementById('mathGameArea').style.display = 'block';
+            document.getElementById('mathEndScreen').style.display = 'none';
+            document.getElementById('mathScore').textContent = '0';
+            document.getElementById('mathAnswer').value = '';
+            document.getElementById('mathAnswer').focus();
+            generateMathProblem();
+            startMathTimer();
+        }
+
+        function generateMathProblem() {
+            const num1 = Math.floor(Math.random() * 50) + 1;
+            const num2 = Math.floor(Math.random() * 50) + 1;
+            const ops = ['+', '-', '*'];
+            const op = ops[Math.floor(Math.random() * ops.length)];
+            window.mathCorrectAnswer = eval(`${num1} ${op} ${num2}`);
+            document.getElementById('mathProblem').textContent = `${num1} ${op} ${num2}`;
+        }
+
+        function startMathTimer() {
+            if (window.mathGameTimer) clearInterval(window.mathGameTimer);
+            window.mathGameTimer = setInterval(() => {
+                mathGameState.timeLeft--;
+                document.getElementById('mathTimer').textContent = mathGameState.timeLeft;
+                const percent = (mathGameState.timeLeft / 30) * 100;
+                document.getElementById('mathTimerBar').style.width = percent + '%';
+
+                if (mathGameState.timeLeft <= 0) {
+                    clearInterval(window.mathGameTimer);
+                    endMathGame();
+                }
+            }, 1000);
+        }
+
+        function submitMathAnswer() {
+            if (!mathGameState.isActive) return;
+            const userAnswer = parseInt(document.getElementById('mathAnswer').value);
+            if (isNaN(userAnswer)) {
+                showToast('Please enter a valid number', 'error');
+                return;
+            }
+
+            if (userAnswer === window.mathCorrectAnswer) {
+                mathGameState.score += 10;
+                mathGameState.correctCount++;
+                showToast('Correct! ✓', 'success');
+                document.getElementById('mathScore').textContent = mathGameState.score;
+            } else {
+                showToast(`Wrong! Answer was ${window.mathCorrectAnswer}`, 'error');
+            }
+
+            document.getElementById('mathAnswer').value = '';
+            generateMathProblem();
+        }
+
+        function endMathGame() {
+            mathGameState.isActive = false;
+            const xpEarned = mathGameState.correctCount * 5;
+            document.getElementById('mathGameArea').style.display = 'none';
+            document.getElementById('mathEndScreen').style.display = 'block';
+            document.getElementById('mathFinalScore').textContent = mathGameState.score;
+            document.getElementById('mathCorrectCount').textContent = mathGameState.correctCount;
+            document.getElementById('mathXPEarned').textContent = xpEarned;
+
+            gameStats.speedMath.plays++;
+            gameStats.speedMath.highScore = Math.max(gameStats.speedMath.highScore, mathGameState.score);
+            totalGamesPlayed++;
+            totalXPEarned += xpEarned;
+            updateGameStats();
+            saveGameResult('Speed Math', mathGameState.score, xpEarned);
+        }
+
+        // ========== WORD SCRAMBLE GAME ==========
+        const wordList = [
+            { word: 'HELMET', scrambled: 'MHLETE', hint: 'Head protection' },
+            { word: 'PLANET', scrambled: 'TALNEP', hint: 'Celestial body' },
+            { word: 'FOREST', scrambled: 'ROTSEF', hint: 'Woods' },
+            { word: 'PYTHON', scrambled: 'HYTPON', hint: 'Programming language' },
+            { word: 'GUITAR', scrambled: 'ARUTIG', hint: 'Musical instrument' },
+            { word: 'LAPTOP', scrambled: 'POTPAL', hint: 'Computer' },
+            { word: 'CASTLE', scrambled: 'TELCAS', hint: 'Medieval fortress' },
+            { word: 'FLOWER', scrambled: 'REWOLF', hint: 'Plant' },
+            { word: 'TRIANGLE', scrambled: 'ELGNART', hint: '3-sided shape' },
+            { word: 'CHAMPION', scrambled: 'NOMPAIHC', hint: 'Winner' }
+        ];
+
+        let wordGameState = {
+            score: 0,
+            timeStart: 0,
+            isActive: false,
+            currentWord: null
+        };
+
+        function initWordScramble() {
+            wordGameState = { score: 0, timeStart: Date.now(), isActive: true, currentWord: null };
+            document.getElementById('wordGameArea').style.display = 'block';
+            document.getElementById('wordEndScreen').style.display = 'none';
+            document.getElementById('wordScore').textContent = '0';
+            document.getElementById('wordAnswer').value = '';
+            document.getElementById('wordAnswer').focus();
+            generateScrambledWord();
+        }
+
+        function generateScrambledWord() {
+            wordGameState.currentWord = wordList[Math.floor(Math.random() * wordList.length)];
+            document.getElementById('scrambledWord').textContent = wordGameState.currentWord.scrambled;
+            document.querySelector('.word-hint').textContent = `Hint: ${wordGameState.currentWord.hint}`;
+        }
+
+        function submitWordAnswer() {
+            if (!wordGameState.isActive) return;
+            const userAnswer = document.getElementById('wordAnswer').value.toUpperCase().trim();
+            if (userAnswer === wordGameState.currentWord.word) {
+                wordGameState.score++;
+                showToast('Correct! ✓', 'success');
+                document.getElementById('wordScore').textContent = wordGameState.score;
+                document.getElementById('wordAnswer').value = '';
+                generateScrambledWord();
+            } else {
+                showToast('Incorrect! Try again.', 'error');
+                document.getElementById('wordAnswer').value = '';
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            if (e.target.id === 'wordScrambleModal' || e.target.classList.contains('close-btn')) {
+                const modal = document.getElementById('wordScrambleModal');
+                if (modal.classList.contains('active') && wordGameState.isActive) {
+                    endWordGame();
+                }
+            }
+        });
+
+        function endWordGame() {
+            wordGameState.isActive = false;
+            const timePlayed = Math.floor((Date.now() - wordGameState.timeStart) / 1000);
+            const xpEarned = wordGameState.score * 4;
+            document.getElementById('wordGameArea').style.display = 'none';
+            document.getElementById('wordEndScreen').style.display = 'block';
+            document.getElementById('wordFinalScore').textContent = wordGameState.score;
+            document.getElementById('wordTimePlayed').textContent = timePlayed;
+            document.getElementById('wordXPEarned').textContent = xpEarned;
+
+            gameStats.wordScramble.plays++;
+            gameStats.wordScramble.wordsSolved += wordGameState.score;
+            totalGamesPlayed++;
+            totalXPEarned += xpEarned;
+            updateGameStats();
+            saveGameResult('Word Scramble', wordGameState.score, xpEarned);
+        }
+
+        // ========== REACTION TIME GAME ==========
+        let reactionGameState = {
+            testsCompleted: 0,
+            fastestTime: null,
+            isWaiting: false,
+            startTime: 0
+        };
+
+        function initReactionTime() {
+            reactionGameState = { testsCompleted: 0, fastestTime: null, isWaiting: false, startTime: 0 };
+            document.getElementById('reactionGameArea').style.display = 'block';
+            document.getElementById('reactionEndScreen').style.display = 'none';
+            document.getElementById('reactionTime').textContent = '--ms';
+            resetReactionArea();
+        }
+
+        function startReactionTest() {
+            const delay = Math.random() * 3000 + 1000;
+            const area = document.getElementById('reactionArea');
+            reactionGameState.isWaiting = true;
+            area.className = 'reaction-area reaction-waiting';
+            area.innerHTML = '<div class="reaction-waiting">Wait for green...</div>';
+            document.getElementById('reactionTime').textContent = '--ms';
+
+            setTimeout(() => {
+                area.className = 'reaction-area reaction-go';
+                area.innerHTML = '<div class="reaction-go">GO!</div>';
+                reactionGameState.startTime = Date.now();
+                reactionGameState.isWaiting = false;
+            }, delay);
+        }
+
+        function onReactionAreaClick() {
+            if (reactionGameState.isWaiting) {
+                showToast('Too fast! Wait for green!', 'error');
+                return;
+            }
+            if (reactionGameState.startTime === 0) return;
+
+            const time = Date.now() - reactionGameState.startTime;
+            document.getElementById('reactionTime').textContent = time + 'ms';
+
+            if (reactionGameState.fastestTime === null || time < reactionGameState.fastestTime) {
+                reactionGameState.fastestTime = time;
+            }
+            reactionGameState.testsCompleted++;
+
+            if (reactionGameState.testsCompleted >= 3) {
+                setTimeout(endReactionGame, 500);
+            } else {
+                setTimeout(resetReactionArea, 800);
+            }
+        }
+
+        function resetReactionArea() {
+            const area = document.getElementById('reactionArea');
+            area.className = 'reaction-area reaction-waiting';
+            area.innerHTML = '<div class="reaction-waiting">Click here to start!</div>';
+            reactionGameState.startTime = 0;
+        }
+
+        function endReactionGame() {
+            const xpEarned = Math.max(20 - Math.floor(reactionGameState.fastestTime / 50), 5);
+            document.getElementById('reactionGameArea').style.display = 'none';
+            document.getElementById('reactionEndScreen').style.display = 'block';
+            document.getElementById('reactionFinalTime').textContent = reactionGameState.fastestTime;
+            document.getElementById('reactionTestsCount').textContent = reactionGameState.testsCompleted;
+            document.getElementById('reactionXPEarned').textContent = xpEarned;
+
+            gameStats.reactionTime.plays++;
+            if (gameStats.reactionTime.bestTime === null || reactionGameState.fastestTime < gameStats.reactionTime.bestTime) {
+                gameStats.reactionTime.bestTime = reactionGameState.fastestTime;
+            }
+            totalGamesPlayed++;
+            totalXPEarned += xpEarned;
+            updateGameStats();
+            saveGameResult('Reaction Time', reactionGameState.fastestTime, xpEarned);
+        }
+
+        // ========== PATTERN MASTER GAME ==========
+        let patternGameState = {
+            sequence: [],
+            userSequence: [],
+            level: 1,
+            isPlayingSequence: false,
+            gameActive: false
+        };
+
+        function initPatternMaster() {
+            patternGameState = { sequence: [], userSequence: [], level: 1, isPlayingSequence: false, gameActive: false };
+            document.getElementById('patternGameArea').style.display = 'block';
+            document.getElementById('patternEndScreen').style.display = 'none';
+            document.getElementById('patternLevel').textContent = '1';
+            document.getElementById('patternScore').textContent = '0';
+        }
+
+        function startPatternGame() {
+            patternGameState.gameActive = true;
+            patternGameState.sequence = [];
+            patternGameState.userSequence = [];
+            patternGameState.level = 1;
+            playNextSequence();
+        }
+
+        function playNextSequence() {
+            patternGameState.isPlayingSequence = true;
+            patternGameState.userSequence = [];
+            const nextColor = Math.floor(Math.random() * 4);
+            patternGameState.sequence.push(nextColor);
+            document.getElementById('patternLevel').textContent = patternGameState.level;
+
+            setTimeout(() => playSequence(), 500);
+        }
+
+        function playSequence() {
+            let i = 0;
+            const playNext = () => {
+                if (i < patternGameState.sequence.length) {
+                    flashBox(patternGameState.sequence[i]);
+                    i++;
+                    setTimeout(playNext, 600);
+                } else {
+                    patternGameState.isPlayingSequence = false;
+                }
+            };
+            playNext();
+        }
+
+        function flashBox(index) {
+            const box = document.getElementById('pattern' + index);
+            box.classList.add('active');
+            setTimeout(() => box.classList.remove('active'), 300);
+        }
+
+        function selectPattern(index) {
+            if (patternGameState.isPlayingSequence || !patternGameState.gameActive) return;
+
+            patternGameState.userSequence.push(index);
+            flashBox(index);
+
+            if (patternGameState.userSequence[patternGameState.userSequence.length - 1] !== patternGameState.sequence[patternGameState.userSequence.length - 1]) {
+                endPatternGame();
+                return;
+            }
+
+            if (patternGameState.userSequence.length === patternGameState.sequence.length) {
+                patternGameState.level++;
+                document.getElementById('patternScore').textContent = patternGameState.level - 1;
+                setTimeout(playNextSequence, 1000);
+            }
+        }
+
+        function endPatternGame() {
+            patternGameState.gameActive = false;
+            const xpEarned = (patternGameState.level - 1) * 5;
+            document.getElementById('patternGameArea').style.display = 'none';
+            document.getElementById('patternEndScreen').style.display = 'block';
+            document.getElementById('patternMaxLevel').textContent = patternGameState.level;
+            document.getElementById('patternFinalStreak').textContent = patternGameState.level - 1;
+            document.getElementById('patternXPEarned').textContent = xpEarned;
+
+            gameStats.patternMaster.plays++;
+            gameStats.patternMaster.bestStreak = Math.max(gameStats.patternMaster.bestStreak, patternGameState.level - 1);
+            totalGamesPlayed++;
+            totalXPEarned += xpEarned;
+            updateGameStats();
+            saveGameResult('Pattern Master', patternGameState.level - 1, xpEarned);
+        }
+
+        // ========== SPEED TYPER GAME ==========
+        const typingTexts = [
+            "The quick brown fox jumps over the lazy dog",
+            "Practice makes perfect in typing speed tests",
+            "Accuracy is more important than speed initially",
+            "Focus on correct finger placement and posture",
+            "Every expert was once a beginner learning to type"
+        ];
+
+        let typingGameState = {
+            textToType: '',
+            startTime: 0,
+            timeLeft: 60,
+            isActive: false,
+            typedChars: 0,
+            correctChars: 0
+        };
+
+        function initSpeedTyper() {
+            typingGameState = {
+                textToType: typingTexts[Math.floor(Math.random() * typingTexts.length)],
+                startTime: Date.now(),
+                timeLeft: 60,
+                isActive: true,
+                typedChars: 0,
+                correctChars: 0
+            };
+            document.getElementById('typerGameArea').style.display = 'block';
+            document.getElementById('typerEndScreen').style.display = 'none';
+            document.getElementById('textToType').textContent = typingGameState.textToType;
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingInput').focus();
+
+            renderTypingText();
+            startTypingTimer();
+        }
+
+        function startTypingTimer() {
+            if (window.typingGameTimer) clearInterval(window.typingGameTimer);
+            window.typingGameTimer = setInterval(() => {
+                typingGameState.timeLeft--;
+                document.getElementById('typingTimer').textContent = typingGameState.timeLeft + 's';
+
+                if (typingGameState.timeLeft <= 0) {
+                    clearInterval(window.typingGameTimer);
+                    finishTyperGame();
+                }
+            }, 1000);
+        }
+
+        const typingInput = document.getElementById('typingInput');
+        if (typingInput) {
+            typingInput.addEventListener('input', updateTypingStats);
+        }
+
+        function updateTypingStats() {
+            if (!typingGameState.isActive) return;
+
+            const typed = document.getElementById('typingInput').value;
+            typingGameState.typedChars = typed.length;
+            typingGameState.correctChars = 0;
+
+            for (let i = 0; i < typed.length && i < typingGameState.textToType.length; i++) {
+                if (typed[i] === typingGameState.textToType[i]) {
+                    typingGameState.correctChars++;
+                }
+            }
+
+            const minutes = (60 - typingGameState.timeLeft) / 60 || 0.016;
+            const wpm = Math.round((typingGameState.correctChars / 5) / minutes);
+            const accuracy = typed.length > 0 ? Math.round((typingGameState.correctChars / typed.length) * 100) : 100;
+
+            document.getElementById('typingWPM').textContent = wpm;
+            document.getElementById('typingAccuracy').textContent = accuracy + '%';
+            renderTypingText();
+        }
+
+        function renderTypingText() {
+            const typed = document.getElementById('typingInput').value;
+            let html = '';
+
+            for (let i = 0; i < typingGameState.textToType.length; i++) {
+                let charClass = 'char';
+                if (i < typed.length) {
+                    charClass += typed[i] === typingGameState.textToType[i] ? ' correct' : ' incorrect';
+                } else if (i === typed.length) {
+                    charClass += ' current';
+                }
+                html += `<span class="${charClass}">${typingGameState.textToType[i]}</span>`;
+            }
+
+            document.getElementById('textToType').innerHTML = html;
+        }
+
+        function finishTyperGame() {
+            typingGameState.isActive = false;
+            clearInterval(window.typingGameTimer);
+
+            const minutes = 1 / 60;
+            const wpm = Math.round((typingGameState.correctChars / 5) / minutes);
+            const accuracy = typingGameState.typedChars > 0 ? Math.round((typingGameState.correctChars / typingGameState.typedChars) * 100) : 0;
+            const xpEarned = Math.max(Math.round(wpm / 10), 10);
+
+            document.getElementById('typerGameArea').style.display = 'none';
+            document.getElementById('typerEndScreen').style.display = 'block';
+            document.getElementById('typerFinalWPM').textContent = wpm;
+            document.getElementById('typerFinalAccuracy').textContent = accuracy;
+            document.getElementById('typerXPEarned').textContent = xpEarned;
+
+            gameStats.speedTyper.plays++;
+            gameStats.speedTyper.bestWPM = Math.max(gameStats.speedTyper.bestWPM, wpm);
+            totalGamesPlayed++;
+            totalXPEarned += xpEarned;
+            updateGameStats();
+            saveGameResult('Speed Typer', wpm, xpEarned);
+        }
+
+        // ========== GEOGRAPHY QUEST GAME ==========
+        const geographyQuestions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Paris", "Berlin", "Madrid"],
+                correct: 1,
+                fact: "Paris is known as the City of Light and has been a major center of culture and education for centuries."
+            },
+            {
+                question: "Which country is known as the Land of the Rising Sun?",
+                options: ["China", "South Korea", "Japan", "Thailand"],
+                correct: 2,
+                fact: "Japan's flag features a red circle representing the sun, symbolizing the rising sun in the east."
+            },
+            {
+                question: "What is the capital of Australia?",
+                options: ["Sydney", "Melbourne", "Canberra", "Brisbane"],
+                correct: 2,
+                fact: "Canberra was purpose-built as the capital city and was designed in the early 20th century."
+            },
+            {
+                question: "Which is the largest country by area?",
+                options: ["Canada", "Russia", "United States", "China"],
+                correct: 1,
+                fact: "Russia spans over 17 million square kilometers across Eastern Europe and Asia."
+            },
+            {
+                question: "What is the capital of Brazil?",
+                options: ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"],
+                correct: 2,
+                fact: "Brasília was built in the 1950s and is a UNESCO World Heritage Site known for its modernist architecture."
+            },
+            {
+                question: "Which country has the most islands?",
+                options: ["Indonesia", "Philippines", "Sweden", "Norway"],
+                correct: 0,
+                fact: "Indonesia has over 17,000 islands, making it the world's largest archipelago."
+            },
+            {
+                question: "What is the capital of Egypt?",
+                options: ["Cairo", "Alexandria", "Giza", "Luxor"],
+                correct: 0,
+                fact: "Cairo is one of the oldest cities in the world and home to the Great Pyramids of Giza."
+            },
+            {
+                question: "Which is the smallest country in the world?",
+                options: ["Monaco", "San Marino", "Vatican City", "Liechtenstein"],
+                correct: 2,
+                fact: "Vatican City is an independent city-state surrounded by Rome, with an area of just 0.44 square kilometers."
+            },
+            {
+                question: "What is the capital of Canada?",
+                options: ["Toronto", "Vancouver", "Montreal", "Ottawa"],
+                correct: 3,
+                fact: "Ottawa was chosen as the capital in 1857 to serve as a compromise between French and English communities."
+            },
+            {
+                question: "Which desert is the largest in the world?",
+                options: ["Sahara", "Arabian", "Gobi", "Antarctic"],
+                correct: 3,
+                fact: "Antarctica is technically a desert, being the world's largest and coldest desert continent."
+            }
+        ];
+
+        let geoGameState = {
+            currentQuestion: 0,
+            score: 0,
+            selectedOption: null,
+            answered: false,
+            questions: []
+        };
+
+        function initGeographyQuest() {
+            geoGameState = {
+                currentQuestion: 0,
+                score: 0,
+                selectedOption: null,
+                answered: false,
+                questions: [...geographyQuestions]
+            };
+            document.getElementById('geoGameArea').style.display = 'block';
+            document.getElementById('geoEndScreen').style.display = 'none';
+            document.getElementById('geoScore').textContent = '0';
+            loadGeoQuestion();
+        }
+
+        function loadGeoQuestion() {
+            geoGameState.selectedOption = null;
+            geoGameState.answered = false;
+            const question = geoGameState.questions[geoGameState.currentQuestion];
+
+            document.getElementById('geoQuestionNum').textContent = geoGameState.currentQuestion + 1;
+            document.getElementById('geoQuestion').textContent = question.question;
+
+            const optionsDiv = document.getElementById('geoOptions');
+            optionsDiv.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectGeoOption(index, optionDiv);
+                optionsDiv.appendChild(optionDiv);
+            });
+        }
+
+        function selectGeoOption(index, element) {
+            if (geoGameState.answered) return;
+
+            geoGameState.selectedOption = index;
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function submitGeoAnswer() {
+            if (geoGameState.answered) {
+                geoGameState.currentQuestion++;
+                if (geoGameState.currentQuestion >= 10) {
+                    endGeographyGame();
+                } else {
+                    loadGeoQuestion();
+                }
+                return;
+            }
+
+            if (geoGameState.selectedOption === null) {
+                showToast('Please select an answer', 'error');
+                return;
+            }
+
+            geoGameState.answered = true;
+            const question = geoGameState.questions[geoGameState.currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+
+            if (geoGameState.selectedOption === question.correct) {
+                geoGameState.score++;
+                options[geoGameState.selectedOption].classList.add('correct');
+                document.getElementById('geoScore').textContent = geoGameState.score;
+                showToast('Correct! ✓', 'success');
+            } else {
+                options[geoGameState.selectedOption].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
+                showToast('Incorrect! ✗', 'error');
+            }
+
+            document.querySelector('.quiz-question').innerHTML += `<div class="fact-box">📚 ${question.fact}</div>`;
+            document.querySelector('.submit-btn').textContent = 'Next Question';
+        }
+
+        function endGeographyGame() {
+            const percentage = Math.round((geoGameState.score / 10) * 100);
+            const xpEarned = geoGameState.score * 5;
+
+            document.getElementById('geoGameArea').style.display = 'none';
+            document.getElementById('geoEndScreen').style.display = 'block';
+            document.getElementById('geoFinalScore').textContent = geoGameState.score;
+            document.getElementById('geoPercentage').textContent = percentage;
+            document.getElementById('geoXPEarned').textContent = xpEarned;
+
+            gameStats.geographyQuest.plays++;
+            gameStats.geographyQuest.highScore = Math.max(gameStats.geographyQuest.highScore, geoGameState.score);
+            totalGamesPlayed++;
+            totalXPEarned += xpEarned;
+            updateGameStats();
+            saveGameResult('Geography Quest', geoGameState.score, xpEarned);
+        }
+
+        // ========== UPDATE GAME STATS ==========
+        function updateGameStats() {
+            document.getElementById('total-games-played').textContent = totalGamesPlayed;
+            document.getElementById('total-xp-earned').textContent = totalXPEarned;
+            document.getElementById('math-high-score').textContent = gameStats.speedMath.highScore;
+            document.getElementById('math-plays').textContent = gameStats.speedMath.plays;
+            document.getElementById('word-solved').textContent = gameStats.wordScramble.wordsSolved;
+            document.getElementById('word-plays').textContent = gameStats.wordScramble.plays;
+            document.getElementById('reaction-best').textContent = gameStats.reactionTime.bestTime ? gameStats.reactionTime.bestTime + 'ms' : '--ms';
+            document.getElementById('reaction-plays').textContent = gameStats.reactionTime.plays;
+            document.getElementById('pattern-best').textContent = gameStats.patternMaster.bestStreak;
+            document.getElementById('pattern-plays').textContent = gameStats.patternMaster.plays;
+            document.getElementById('typer-best').textContent = gameStats.speedTyper.bestWPM;
+            document.getElementById('typer-plays').textContent = gameStats.speedTyper.plays;
+            document.getElementById('geo-high-score').textContent = gameStats.geographyQuest.highScore;
+            document.getElementById('geo-plays').textContent = gameStats.geographyQuest.plays;
+        }
+
+        function saveGameResult(gameName, score, xpEarned) {
+            if (currentRecordCount >= 999) {
+                showToast('⚠️ Maximum limit reached. Cannot save game data.');
+                return;
+            }
+
+            const gameRecord = {
+                type: 'game_result',
+                title: `${gameName} Completed`,
+                content: `Score: ${score} | XP Earned: ${xpEarned}`,
+                author: 'You',
+                timestamp: new Date().toISOString(),
+                likes: 0,
+                category: 'games',
+                media_type: '',
+                views: 0,
+                duration: '',
+                source_url: '',
+                thumbnail: '',
+                priority: 1,
+                is_featured: false,
+                tags: gameName.toLowerCase().replace(' ', '_'),
+                game_score: score,
+                game_type: gameName.toLowerCase().replace(' ', '_')
+            };
+
+            if (window.dataSdk) {
+                window.dataSdk.create(gameRecord);
+            }
+
+            addGameResultCard(gameName, score, xpEarned);
+        }
+
+        function addGameResultCard(gameName, score, xpEarned) {
+            const resultsContainer = document.getElementById('game-results');
+            const emptyState = resultsContainer.querySelector('.text-center');
+            if (emptyState) {
+                resultsContainer.innerHTML = '';
+            }
+
+            const gameIcons = {
+                'Speed Math': '🔢',
+                'Word Scramble': '🔤',
+                'Reaction Time': '⚡',
+                'Pattern Master': '🎯',
+                'Speed Typer': '⌨️',
+                'Geography Quest': '🌍'
+            };
+
+            const resultCard = document.createElement('div');
+            resultCard.className = 'flex items-center gap-4 p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-400/30 animate-in';
+            resultCard.innerHTML = `
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-2xl shadow-lg">
+                    ${gameIcons[gameName] || '🎮'}
+                </div>
+                <div class="flex-1">
+                    <p class="font-semibold text-white">${gameName}</p>
+                    <p class="text-xs text-white/70">Score: ${score} • +${xpEarned} XP</p>
+                </div>
+                <div class="text-xs bg-green-500/30 text-green-200 px-3 py-1 rounded-full border border-green-400/30">
+                    Just now
+                </div>
+            `;
+
+            resultsContainer.insertBefore(resultCard, resultsContainer.firstChild);
+            while (resultsContainer.children.length > 5) {
+                resultsContainer.removeChild(resultsContainer.lastChild);
+            }
+        }
+
+        // ========== FOCUS TIMER LOGIC ==========
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const progress = ((totalTime - timeRemaining) / totalTime) * 283;
+            document.getElementById('timer-progress').style.strokeDashoffset = 283 - progress;
+        }
+
+        document.getElementById('timer-start').addEventListener('click', () => {
+            const startBtn = document.getElementById('timer-start');
+            if (!isTimerRunning) {
+                isTimerRunning = true;
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timeRemaining > 0) {
+                        timeRemaining--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        startBtn.textContent = 'Start Focus';
+                        showToast('🎉 Focus session complete! Great work!');
+                        timeRemaining = totalTime;
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                startBtn.textContent = 'Resume';
+            }
+        });
+
+        document.getElementById('timer-reset').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timeRemaining = totalTime;
+            document.getElementById('timer-start').textContent = 'Start Focus';
+            updateTimerDisplay();
+        });
+
+        document.querySelectorAll('.timer-preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const minutes = parseInt(btn.dataset.minutes);
+                totalTime = minutes * 60;
+                timeRemaining = totalTime;
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                document.getElementById('timer-start').textContent = 'Start Focus';
+                updateTimerDisplay();
+            });
+        });
+
+        // ========== ORIGINAL APP FUNCTIONALITY ==========
+        // Learning Style Button Handlers
+        document.querySelectorAll('.learning-style-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const style = btn.dataset.style;
+                const resources = {
+                    visual: 'https://www.khanacademy.org',
+                    auditory: 'https://www.coursera.org',
+                    kinesthetic: 'https://www.codecademy.com',
+                    reading: 'https://www.medium.com/topic/education'
+                };
+                showToast(`🎯 Loading ${style} learning resources...`);
+                setTimeout(() => {
+                    window.open(resources[style], '_blank', 'noopener,noreferrer');
+                }, 500);
+            });
+        });
+
+        // Study Group Handlers
+        document.querySelectorAll('.study-group-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const groupName = btn.querySelector('.font-semibold').textContent;
+                if (currentRecordCount >= 999) {
+                    showToast('⚠️ Maximum limit reached. Cannot join group.');
+                    return;
+                }
+
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = '<div class="flex items-center justify-center gap-2"><div class="spinner"></div><span>Joining...</span></div>';
+                btn.disabled = true;
+
+                const joinRecord = {
+                    type: 'study_activity',
+                    title: `Joined ${groupName}`,
+                    content: `You are now part of ${groupName}`,
+                    author: 'You',
+                    timestamp: new Date().toISOString(),
+                    likes: 0,
+                    category: 'study',
+                    media_type: '',
+                    views: 0,
+                    duration: '',
+                    source_url: '',
+                    thumbnail: '',
+                    priority: 2,
+                    is_featured: false,
+                    tags: 'study group',
+                    game_score: 0,
+                    game_type: ''
+                };
+
+                const result = await window.dataSdk.create(joinRecord);
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+
+                if (result.isOk) {
+                    showToast(`✅ Successfully joined ${groupName}! +50 XP earned`);
+                } else {
+                    showToast('❌ Failed to join group. Please try again.');
+                }
+            });
+        });
+
+        // Flashcard Handlers
+        document.querySelectorAll('.flashcard-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const deckName = btn.querySelector('.font-semibold').textContent;
+                showToast(`🎴 Opening ${deckName} flashcards...`);
+                setTimeout(() => {
+                    window.open('https://quizlet.com', '_blank', 'noopener,noreferrer');
+                }, 500);
+            });
+        });
+
+        // Content Modal Handlers
+        document.getElementById('add-news-btn').addEventListener('click', () => {
+            document.getElementById('content-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('close-content-modal').addEventListener('click', () => {
+            document.getElementById('content-modal').classList.add('hidden');
+        });
+
+        document.getElementById('cancel-content-btn').addEventListener('click', () => {
+            document.getElementById('content-modal').classList.add('hidden');
+        });
+
+        document.getElementById('content-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'content-modal') {
+                document.getElementById('content-modal').classList.add('hidden');
+            }
+        });
+
+        // Content Form Submission
+        document.getElementById('content-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (currentRecordCount >= 999) {
+                showToast('⚠️ Maximum limit of 999 items reached.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('content-submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="spinner mx-auto"></div>';
+            submitBtn.disabled = true;
+
+            const title = document.getElementById('content-title').value;
+            const contentType = document.getElementById('content-type').value;
+            const description = document.getElementById('content-description').value;
+            const sourceUrl = document.getElementById('content-source').value;
+            const author = document.getElementById('content-author').value || 'Ghana Source';
+            const priority = parseInt(document.getElementById('content-priority').value);
+            const duration = document.getElementById('content-duration').value;
+            const tags = document.getElementById('content-tags').value;
+            const isFeatured = document.getElementById('content-featured').checked;
+
+            const newContent = {
+                type: contentType,
+                title: title,
+                content: description,
+                author: author,
+                timestamp: new Date().toISOString(),
+                likes: 0,
+                category: contentType,
+                media_type: contentType,
+                views: Math.floor(Math.random() * 500) + 100,
+                duration: duration,
+                source_url: sourceUrl,
+                thumbnail: '',
+                priority: priority,
+                is_featured: isFeatured,
+                tags: tags,
+                game_score: 0,
+                game_type: ''
+            };
+
+            const result = await window.dataSdk.create(newContent);
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+
+            if (result.isOk) {
+                document.getElementById('content-form').reset();
+                document.getElementById('content-modal').classList.add('hidden');
+                showToast('✅ Content added successfully!');
+            } else {
+                showToast('❌ Failed to add content. Please try again.');
+            }
+        });
+
+        // Content Filter Handlers
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentFilter = btn.dataset.filter;
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-sky-500/30', 'text-sky-200', 'border-sky-400/30');
+                    b.classList.add('bg-white/5', 'text-white/70');
+                });
+                btn.classList.remove('bg-white/5', 'text-white/70');
+                btn.classList.add('active', 'bg-sky-500/30', 'text-sky-200', 'border-sky-400/30');
+                renderNewsContent();
+            });
+        });
+
+        // Social Feed - Post form submission
+        const postForm = document.getElementById('post-form');
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (currentRecordCount >= 999) {
+                showToast('⚠️ Maximum limit of 999 posts reached.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('post-submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="spinner mx-auto"></div>';
+            submitBtn.disabled = true;
+
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            const category = document.getElementById('post-category').value;
+
+            const userNames = ['Kwame', 'Ama', 'Kofi', 'Akua', 'Yaw', 'Abena', 'Kwesi'];
+            const randomName = userNames[Math.floor(Math.random() * userNames.length)];
+
+            const newPost = {
+                type: 'post',
+                title: title,
+                content: content,
+                author: randomName,
+                timestamp: new Date().toISOString(),
+                likes: 0,
+                category: category,
+                media_type: '',
+                views: 0,
+                duration: '',
+                source_url: '',
+                thumbnail: '',
+                priority: 1,
+                is_featured: false,
+                tags: category,
+                game_score: 0,
+                game_type: ''
+            };
+
+            const result = await window.dataSdk.create(newPost);
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+
+            if (result.isOk) {
+                postForm.reset();
+                showToast('✅ Post shared successfully!');
+            } else {
+                showToast('❌ Failed to create post. Please try again.');
+            }
+        });
+
+        // Data SDK Integration
+        const dataHandler = {
+            onDataChanged(data) {
+                allContent = data;
+                currentRecordCount = data.length;
+                renderNewsContent();
+                updateNewsStats();
+                renderPosts();
+            }
+        };
+
+        function updateNewsStats() {
+            const newsItems = allContent.filter(item => ['news', 'video', 'entertainment', 'multimedia'].includes(item.type));
+            const totalContent = newsItems.length;
+            const newsCount = allContent.filter(item => item.type === 'news').length;
+            const videoCount = allContent.filter(item => item.type === 'video').length;
+            const entertainmentCount = allContent.filter(item => item.type === 'entertainment').length;
+            const totalViews = newsItems.reduce((sum, item) => sum + (item.views || 0), 0);
+
+            document.getElementById('total-content').textContent = totalContent;
+            document.getElementById('news-count').textContent = newsCount;
+            document.getElementById('video-count').textContent = videoCount;
+            document.getElementById('entertainment-count').textContent = entertainmentCount;
+            document.getElementById('total-views').textContent = totalViews;
+        }
+
+        function renderNewsContent() {
+            const container = document.getElementById('news-container');
+            const emptyState = document.getElementById('empty-news');
+
+            let filteredContent = allContent.filter(item => ['news', 'video', 'entertainment', 'multimedia'].includes(item.type));
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'featured') {
+                    filteredContent = filteredContent.filter(item => item.is_featured);
+                } else {
+                    filteredContent = filteredContent.filter(item => item.type === currentFilter);
+                }
+            }
+
+            if (filteredContent.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            const sortedContent = filteredContent.sort((a, b) => {
+                if (a.is_featured && !b.is_featured) return -1;
+                if (!a.is_featured && b.is_featured) return 1;
+                if (b.priority !== a.priority) return b.priority - a.priority;
+                return new Date(b.timestamp) - new Date(a.timestamp);
+            });
+
+            container.innerHTML = sortedContent.map(item => {
+                const typeEmojis = { news: '📰', video: '🎬', entertainment: '🎭', multimedia: '🎥' };
+                const priorityClass = item.priority === 3 ? 'priority-high' : item.priority === 2 ? 'priority-medium' : 'priority-low';
+                const timeAgo = getTimeAgo(new Date(item.timestamp));
+
+                return `
+                    <div class="news-card glass-card rounded-2xl p-6 ${priorityClass}">
+                        ${item.is_featured ? '<div class="badge-featured text-xs font-bold text-slate-900 px-3 py-1 rounded-full inline-flex items-center gap-1 mb-3"><span>⭐</span> FEATURED</div>' : ''}
+                        <div class="flex items-start gap-3 mb-4">
+                            <div class="text-4xl">${typeEmojis[item.type] || '📄'}</div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-bold text-white mb-2">${escapeHtml(item.title)}</h4>
+                                <p class="text-sm text-white/70 mb-3">${escapeHtml(item.content)}</p>
+                                <div class="flex flex-wrap items-center gap-2 text-xs text-white/50">
+                                    <span>📝 ${escapeHtml(item.author)}</span>
+                                    <span>•</span>
+                                    <span>👁️ ${item.views} views</span>
+                                    ${item.duration ? `<span>•</span><span>⏱️ ${item.duration}</span>` : ''}
+                                    <span>•</span>
+                                    <span>${timeAgo}</span>
+                                </div>
+                                ${item.tags ? `<div class="flex flex-wrap gap-1 mt-2">${item.tags.split(',').map(tag => `<span class="text-xs bg-white/10 text-white/70 px-2 py-0.5 rounded-full">#${tag.trim()}</span>`).join('')}</div>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            ${item.source_url ? `<a href="${escapeHtml(item.source_url)}" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500/30 to-blue-500/30 text-sky-200 rounded-lg text-sm font-medium hover:from-sky-500/40 hover:to-blue-500/40 transition-all text-center border border-sky-400/30">View Source →</a>` : ''}
+                            <button class="like-news-btn px-4 py-2 bg-white/10 text-white/70 rounded-lg text-sm font-medium hover:bg-white/20 transition-all flex items-center gap-2" data-id="${item.__backendId}">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="like-count">${item.likes}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add like button handlers
+            document.querySelectorAll('.like-news-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const itemId = btn.dataset.id;
+                    const item = allContent.find(i => i.__backendId === itemId);
+                    if (item) {
+                        item.likes = (item.likes || 0) + 1;
+                        btn.classList.add('liked');
+                        const result = await window.dataSdk.update(item);
+                        if (!result.isOk) {
+                            showToast('❌ Failed to update likes');
+                        }
+                    }
+                });
+            });
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            const emptyFeed = document.getElementById('empty-feed');
+            const posts = allContent.filter(item => item.type === 'post');
+
+            if (posts.length === 0) {
+                container.innerHTML = '';
+                emptyFeed.classList.remove('hidden');
+                return;
+            }
+
+            emptyFeed.classList.add('hidden');
+            const sortedPosts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            container.innerHTML = sortedPosts.map(post => {
+                const categoryEmojis = {
+                    general: '💬',
+                    study: '📚',
+                    achievement: '🏆',
+                    event: '📅',
+                    fun: '🎉'
+                };
+                const timeAgo = getTimeAgo(new Date(post.timestamp));
+
+                return `
+                    <div class="post-card glass-card rounded-2xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold">
+                                ${post.author.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="font-semibold text-white">${post.author}</span>
+                                    <span class="text-xs bg-sky-500/30 text-sky-200 px-2 py-1 rounded-full border border-sky-400/30">
+                                        ${categoryEmojis[post.category] || '💬'} ${post.category}
+                                    </span>
+                                    <span class="text-xs text-white/40">${timeAgo}</span>
+                                </div>
+                                <h4 class="font-bold text-white mb-2">${escapeHtml(post.title)}</h4>
+                                <p class="text-white/70 mb-3">${escapeHtml(post.content)}</p>
+                                <div class="flex items-center gap-4">
+                                    <button class="like-btn flex items-center gap-2 text-white/50 hover:text-red-400 transition-colors" data-id="${post.__backendId}">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="like-count">${post.likes}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add like button handlers
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const postId = btn.dataset.id;
+                    const post = allContent.find(p => p.__backendId === postId);
+                    if (post) {
+                        post.likes = (post.likes || 0) + 1;
+                        btn.classList.add('liked');
+                        const result = await window.dataSdk.update(post);
+                        if (!result.isOk) {
+                            showToast('❌ Failed to update likes');
+                        }
+                    }
+                });
+            });
+        }
+
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            return `${days}d ago`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Element SDK Integration
+        async function onConfigChange(newConfig) {
+            config = { ...defaultConfig, ...newConfig };
+            document.getElementById('platform-name').textContent = config.platform_name || defaultConfig.platform_name;
+            document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+            document.getElementById('premium-cta-text').textContent = config.premium_cta || defaultConfig.premium_cta;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            config.primary_color = value;
+                            window.elementSdk.setConfig({ primary_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.secondary_color || defaultConfig.secondary_color,
+                        set: (value) => {
+                            config.secondary_color = value;
+                            window.elementSdk.setConfig({ secondary_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            window.elementSdk.setConfig({ text_color: value });
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        config.font_family = value;
+                        window.elementSdk.setConfig({ font_family: value });
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        config.font_size = value;
+                        window.elementSdk.setConfig({ font_size: value });
+                    }
+                }
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ['platform_name', config.platform_name || defaultConfig.platform_name],
+                ['welcome_message', config.welcome_message || defaultConfig.welcome_message],
+                ['premium_cta', config.premium_cta || defaultConfig.premium_cta]
+            ]);
+        }
+
+        // Initialize SDKs
+        async function initialize() {
+            if (window.dataSdk) {
+                const initResult = await window.dataSdk.init(dataHandler);
+                if (!initResult.isOk) {
+                    console.error('Failed to initialize Data SDK');
+                }
+            }
+
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    onConfigChange,
+                    mapToCapabilities,
+                    mapToEditPanelValues
+                });
+            }
+
+            updateTimerDisplay();
+            updateGameStats();
+        }
+
+        // Initialize everything
+        initialize();
+
+        // Tab triggers
+        document.querySelectorAll('.news-tab-trigger, .add-content-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.switchToNewsTab();
+                if (btn.classList.contains('add-content-trigger')) {
+                    setTimeout(() => {
+                        document.getElementById('content-modal').classList.remove('hidden');
+                    }, 300);
+                }
+            });
+        });
+
+        document.querySelectorAll('.games-tab-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
+                document.querySelector('[data-tab="games"]').classList.add('active');
+                Object.values(sections).forEach(section => section.classList.add('hidden'));
+                sections['games'].classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+
+</html>
